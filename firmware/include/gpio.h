@@ -11,12 +11,14 @@
 #define DATA_BUS_MASK 	0xFFFF // 16 bits
 
 #define ADDR_BUS_A0		8
-#define ADDR_BUS_A0_MASK 	0xFF00 // 8 bits
+#define ADDR_BUS_A0_MASK 	    0x0FF00 // 8 bits
 #define ADDR_BUS_A0_FULLMASK 	0xFFF00 // 12 bits
 
 /* BA8-BA11 */
 #define ADDR_BUS_A8		16
 #define ADDR_BUS_WIDTH	4
+#define ADDR_BUS_A8_MASK 	    0xF0000 // 4 bits
+
 
 #define SEL_ROM		22
 #define SEL_PICO		21
