@@ -1,0 +1,101 @@
+Name     U5 ;
+Date     2/13/2023 ;
+Revision 01 ;
+Designer ZZJ ;
+Assembly PDSPico ;
+Device   g22v10 ;
+Company  no ;
+Location no ;
+Partno   no ;
+
+/* *************** INPUT PINS *********************/
+PIN   1 = DS; 			/* active low 	data strobe from PDS */
+PIN   2 = DSACK_PICO; 	/* active low 	dsack output from Pico */
+PIN   3 = SLOT_ID;		/* slot ID jumper - pulled up externally */
+PIN   4 = A22;
+PIN   5 = A23;
+PIN   6 = A24;
+PIN   7 = A25;
+PIN   8 = A26;
+PIN   9 = A27;
+PIN  10 = A28;
+PIN  11 = A29;
+PIN  13 = A30;
+PIN  14 = A31;
+PIN  16 = IRQ_PICO;		/* active low 	IRQ Input from Pico */
+
+/* *************** OUTPUT PINS *********************/
+PIN  23 = SEL_PICO;		/* active low 	Pico select strobe (16 bit) */
+PIN  22 = SEL_ROM;		/* active low 	ROM select strobe (8 bit) */
+PIN  21 = SEL_SLOT;		/* active low 	access to slot  */
+PIN  20 = DSACK0;		/* active low 	DSACK0 to PDS */
+PIN  19 = DSACK1;		/* active low 	DSACK1 to PDS */
+PIN	 18 = IRQ2;			/* active low 	IRQ2 (Slot A) to PDS */
+PIN  17 = IRQ3;			/* active low 	IRC3 (Slot B) to PDS */
+
+
+/* *************** UNUSED PINS *********************/
+PIN  15 =  UNUSED_1;
+
+/* *************** EQUATIONS ***********************/
+
+/*
+         | 3322 2222 2222 1111 1111 11
+ HEX     | 1098 7654 3210 9876 5432 1098 7654 3210
+---------|----------------------------------------
+f9000000   1111 1001 0000 0000 0000 0000 0000 0000 
+fa000000   1111 1010 0000 0000 0000 0000 0000 0000 
+fb000000   1111 1011 0000 0000 0000 0000 0000 0000 
+fe000000   1111 1110 0000 0000 0000 0000 0000 0000 
+fac00000   1111 1010 1100 0000 0000 0000 0000 0000 
+fa800000   1111 1010 1000 0000 0000 0000 0000 0000 
+fa400000   1111 1010 0100 0000 0000 0000 0000 0000 
+
+PICO starts at 0xfX000000
+Status  at     0xfX400000
+ROM starts at  0xfXc00000
+
+where X is slot A or B
+SLOT_ID = high (no jumper) = Slot A
+
+DSACK1 	DSACK0	
+H		H		wait
+H		L		8 bit
+L		H		16 bit
+L		L		32 bit
+
+SEL_ROM & DSACK_PICO or SEL_STATUS -> 8 bit
+SEL_PICO & DSACK_PICO -> 16 bit
+*/
+
+/* identify Nubus emulation space in 68030 PDS address range (internal only) */
+SEL_EXP = !DS & A31 & A30 & A29 & A28 & A27;
+
+/* active low buffer control */
+SEL_SLOT = ! (SEL_EXP & ((SLOT_ID & !A26 & A25 & !A24) # (!SLOT_ID & !A26 & A25 & A24)));
+
+/* active low data strobes / buffer control */
+SEL_PICO =   ! (!SEL_SLOT & !A23 & !A22);
+SEL_ROM =    ! (!SEL_SLOT &  A23 &  A22);
+
+/* status flags strobe (internal-only) active low */
+SEL_STATUS = ! (!SEL_SLOT & !A23 &  A22);
+
+/* active low dsack signals to PDS */
+DSACK1 = !SEL_STATUS # DSACK_PICO # SEL_PICO;
+DSACK1.oe = !SEL_SLOT;
+
+DSACK0 = SEL_STATUS & DSACK_PICO # SEL_STATUS & SEL_ROM;
+DSACK0.oe = !SEL_SLOT;
+
+/* active low IRQ for Slot A 
+SLOT_ID jumper not installed: SLOT_ID pulled up */
+
+IRQ2 = !SLOT_ID;
+IRQ2.oe = !IRQ_PICO;
+
+/* active low IRQ for Slot B
+SLOT_ID jumper installed: SLOT_ID grounded */
+
+IRQ3 = SLOT_ID;
+IRQ3.oe = !IRQ_PICO;

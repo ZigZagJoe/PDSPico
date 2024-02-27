@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "Interware Booster")(type "KiCad")(uri "M:/Projects/~Electronics stuff/kicad/libraries/Interware Booster.kicad_sym")(options "")(descr ""))
+)

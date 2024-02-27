@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "SockeBooster")(type "KiCad")(uri "M:/Projects/~Electronics stuff/kicad/libraries/SockeBooster.pretty")(options "")(descr ""))
+)

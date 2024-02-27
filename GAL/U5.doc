@@ -1,0 +1,134 @@
+
+*******************************************************************************
+                                      U5
+*******************************************************************************
+
+CUPL(WM)        5.0a Serial# MW-10400000
+Device          g22v10  Library DLIB-h-40-1
+Created         Mon Feb 26 12:18:02 2024
+Name            U5 
+Partno          no 
+Revision        01 
+Date            2/13/2023 
+Designer        ZZJ 
+Company         no 
+Assembly        PDSPico 
+Location        no 
+
+===============================================================================
+                            Expanded Product Terms
+===============================================================================
+
+DSACK0 =>
+    SEL_ROM & SEL_SLOT
+  # DSACK_PICO & SEL_SLOT
+  # A23 & SEL_ROM
+  # !A22 & SEL_ROM
+  # A23 & DSACK_PICO
+  # !A22 & DSACK_PICO
+
+DSACK0.oe  =>
+    !SEL_SLOT
+
+DSACK1 =>
+    A22 & !A23 & !SEL_SLOT
+  # SEL_PICO
+  # DSACK_PICO
+
+DSACK1.oe  =>
+    !SEL_SLOT
+
+IRQ2 =>
+    !SLOT_ID
+
+IRQ2.oe  =>
+    !IRQ_PICO
+
+IRQ3 =>
+    SLOT_ID
+
+IRQ3.oe  =>
+    !IRQ_PICO
+
+SEL_EXP =>
+    A27 & A28 & A29 & A30 & A31 & !DS
+
+SEL_PICO =>
+    !A22 & !A23 & !SEL_SLOT
+
+SEL_ROM =>
+    A22 & A23 & !SEL_SLOT
+
+SEL_SLOT =>
+    A24 & A25 & !A26 & A27 & A28 & A29 & A30 & A31 & !DS & !SLOT_ID
+  # !A24 & A25 & !A26 & A27 & A28 & A29 & A30 & A31 & !DS & SLOT_ID
+
+SEL_STATUS =>
+    SEL_SLOT
+  # A23
+  # !A22
+
+A31.oe  =>
+    0 
+
+IRQ_PICO.oe  =>
+    0 
+
+SEL_PICO.oe  =>
+    1 
+
+SEL_ROM.oe  =>
+    1 
+
+SEL_SLOT.oe  =>
+    1 
+
+
+===============================================================================
+                                 Symbol Table
+===============================================================================
+
+Pin Variable                                    Pterms   Max     Min    
+Pol   Name              Ext     Pin     Type     Used   Pterms  Level   
+--- --------            ---     ---     ----    ------  ------  -----   
+
+    A22                         4        V        -       -       -     
+    A23                         5        V        -       -       -     
+    A24                         6        V        -       -       -     
+    A25                         7        V        -       -       -     
+    A26                         8        V        -       -       -     
+    A27                         9        V        -       -       -     
+    A28                         10       V        -       -       -     
+    A29                         11       V        -       -       -     
+    A30                         13       V        -       -       -     
+    A31                         14       V        -       -       -     
+    DS                          1        V        -       -       -     
+    DSACK0                      20       V        6       14      4     
+    DSACK0              oe      20       X        1       1       1     
+    DSACK1                      19       V        3       16      4     
+    DSACK1              oe      19       X        1       1       1     
+    DSACK_PICO                  2        V        -       -       -     
+    IRQ2                        18       V        1       16      4     
+    IRQ2                oe      18       X        1       1       1     
+    IRQ3                        17       V        1       14      4     
+    IRQ3                oe      17       X        1       1       1     
+    IRQ_PICO                    16       V        -       -       -     
+    SEL_EXP                     0        I        1       -       -     
+    SEL_PICO                    23       V        1       8       4     
+    SEL_ROM                     22       V        1       10      4     
+    SEL_SLOT                    21       V        2       12      4     
+    SEL_STATUS                  0        I        3       -       -     
+    SLOT_ID                     3        V        -       -       -     
+    UNUSED_1                    15       V        -       -       -     
+    A31                 oe      14       D        1       1       0     
+    IRQ_PICO            oe      16       D        1       1       0     
+    SEL_PICO            oe      23       D        1       1       0     
+    SEL_ROM             oe      22       D        1       1       0     
+    SEL_SLOT            oe      21       D        1       1       0     
+
+
+LEGEND    D : default variable         F : field      G : group
+          I : intermediate variable    N : node       M : extended node
+          U : undefined                V : variable   X : extended variable
+          T : function
+

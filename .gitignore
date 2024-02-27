@@ -1,0 +1,11 @@
+GAL/build.cmd
+kicad/PDSPico/PDSPico-backups
+*/Thumbs.db
+*.lnk
+firmware/.pio
+firmware/.vscode
+firmware/old/*
+firmware/builds/*
+firmware/BuildUploadAndMonitor.ps1
+firmware/Monitor.ps1
+*/notes*.txt
